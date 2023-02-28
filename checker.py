@@ -13,17 +13,23 @@ def check(phones=phone_list()):
     API_KEY = str(input('Enter your API Key: '))
     req = requests.session()
     length_of_phones = len(phones)   
+    checked_list = []
     try:
         for each_phone in phones:
             resp = req.get(f'https://api.veriphone.io/v2/verify?phone=%2B{each_phone}&key={API_KEY}')
-            length_of_phones -= 1
             resp = resp.json()
             carrier = resp["carrier"]
             status = resp["status"]
-            print(f"Status: {status} | {carrier} : {each_phone}")
+            in_number = resp["international_number"]
+            print(f"Number: {each_phone} | {carrier}")
+            checked_list.append(f'{carrier}|{in_number}\n')
+            length_of_phones -= 1
     except Exception:
         pass
-
+    for checked_number in checked_list:
+        with open("checked.txt", 'a') as checked_file:
+            checked_file.writelines((checked_number))
+    
 if __name__ == "__main__":
     check()
-
+    
