@@ -11,8 +11,7 @@ def phone_list():
 
 def check(phones=phone_list()):
     API_KEY = str(input('Enter your API Key: '))
-    req = requests.session()
-    length_of_phones = len(phones)   
+    req = requests.session()  
     checked_list = []
     try:
         for each_phone in phones:
@@ -23,7 +22,6 @@ def check(phones=phone_list()):
             in_number = resp["international_number"]
             print(f"Number: {each_phone} | {carrier}")
             checked_list.append(f'{carrier}|{in_number}\n')
-            length_of_phones -= 1
     except Exception:
         pass
     for checked_number in checked_list:
